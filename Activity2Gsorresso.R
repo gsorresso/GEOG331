@@ -35,10 +35,49 @@ Mat.bycol[1,2]
 Mat.bycol[1,]
 ##look at all values in column 2  
 Mat.bycol[,2]
+###############################QUESTION 2#######################################
+##character vector 
+char_vector <- c("colgate", "has", "no", "drinking", "water")
+##numeric vector 
+num_vector <- c(1.1, 2.2, 3.3, 4.4, 5.5)
+##integer vecor 
+int_vector <- c(1L, 2L, 3L, 4L, 5L)
+##factor vector 
+fac_vector <- factor(c("no drinking water", "drinking water", "no drinking water"))
 
+unclass(fac_vector)
 ################################DATA FRAMES####################################
 ##Read in Data
 datW <- read.csv("datafolder/2011124.csv")
 
 ##set first row
 datW[1,]
+
+##get more infor about the metadata
+str(datW)
+
+##specify a column with a proper date format 
+datW$dateF <- as.Date(datW$DATE, "%Y-%m-%d")
+##create a date column by reformatting the date to only include years and indicate this is numeric data 
+datW$year <- as.numeric(format(datW$dateF, "%Y"))
+
+##descriptive statistics 
+##find all unique site names 
+unique(datW$NAME)
+
+##look at mean max tempp for Aberdeen
+mean(datW$TMAX[datW$NAME == "ABERDEEN, WA US"])
+
+##Na value means missing data
+##ignore na/missing values 
+mean(datW$TMAX[datW$NAME == "ABERDEEN, WA US"], na.rm=TRUE)
+#calculate avg daily temp  (halfway between min and max temp)
+datW$TAVE <- datW$TMIN + ((datW$TMAX-datW$TMIN)/2)
+
+#get mean across all sites 
+averageTemp <- aggregate(datW$TAVE, by=list(datW$Name), FUN="mean", na.rm=TRUE)
+averageTemp
+
+##change auto output to be more meaningful 
+colnames(averageTemp) <- c("NAME", "MAAT")
+averageTemp 
