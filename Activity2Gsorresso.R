@@ -48,7 +48,7 @@ fac_vector <- factor(c("no drinking water", "drinking water", "no drinking water
 unclass(fac_vector)
 ################################DATA FRAMES####################################
 ##Read in Data
-datW <- read.csv("datafolder/2011124.csv")
+datW <- read.csv("datafolder/2011124.csv", stringsAsFactors = T)
 
 ##set first row
 datW[1,]
@@ -65,7 +65,7 @@ datW$year <- as.numeric(format(datW$dateF, "%Y"))
 ##find all unique site names 
 unique(datW$NAME)
 
-##look at mean max tempp for Aberdeen
+##look at mean max temp for Aberdeen
 mean(datW$TMAX[datW$NAME == "ABERDEEN, WA US"])
 
 ##Na value means missing data
@@ -80,4 +80,101 @@ averageTemp
 
 ##change auto output to be more meaningful 
 colnames(averageTemp) <- c("NAME", "MAAT")
-averageTemp 
+averageTemp
+
+##convert level to number for factor data type 
+datW$siteN <- as.numeric(datW$NAME)
+##add code to run all four histograms together 
+par(mfrow=c(2,2))
+##make a histogram for the first site in our levels
+hist(datW$TAVE[datW$siteN == 1],
+     freq = FALSE,
+     main = paste(levels(datW$NAME)[1]),
+     xlab = "Average daily Temp (degrees C)",
+     ylab = "Relative Frequency", 
+     col = "grey50",
+     border = "white")
+
+#add mean line with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 1], na.rm=TRUE),
+       col = "tomato3",
+       lwd = 3)
+# add sd line below mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 1], na.rm = TRUE) - sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+# add sd line above mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 1], na.rm = TRUE) + sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+##Answer Q 4 make three other histograms for sites daily averages 
+#make histogram for the second site in our levels, livermore CA 
+hist(datW$TAVE[datW$siteN == 2],
+     freq = FALSE,
+     main = paste(levels(datW$NAME)[2]),
+     xlab = "Average daily Temp (degrees C)",
+     ylab = "Relative Frequency", 
+     col = "azure3",
+     border = "white")
+#add mean line with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 2], na.rm=TRUE),
+       col = "tomato3",
+       lwd = 3)
+# add sd line below mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 2], na.rm = TRUE) - sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+# add sd line above mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 2], na.rm = TRUE) + sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+#make histogram for the fourth site in our levels, Mormon Flat AZ 
+hist(datW$TAVE[datW$siteN == 4],
+     freq = FALSE,
+     main = paste(levels(datW$NAME)[4]),
+     xlab = "Average daily Temp (degrees C)",
+     ylab = "Relative Frequency", 
+     col = "cornsilk1",
+     border = "white")
+#add mean line with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 4], na.rm=TRUE),
+       col = "tomato3",
+       lwd = 3)
+# add sd line below mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 4], na.rm = TRUE) - sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+# add sd line above mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 4], na.rm = TRUE) + sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+#make histogram for the fifth site in our levels, morrisville 6 SW, NY 
+hist(datW$TAVE[datW$siteN == 5],
+     freq = FALSE,
+     main = paste(levels(datW$NAME)[5]),
+     xlab = "Average daily Temp (degrees C)",
+     ylab = "Relative Frequency", 
+     col = "mistyrose3",
+     border = "white")
+#add mean line with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 5], na.rm=TRUE),
+       col = "tomato3",
+       lwd = 3)
+# add sd line below mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 5], na.rm = TRUE) - sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+# add sd line above mean with red color and thickness 3 
+abline(v = mean(datW$TAVE[datW$siteN == 5], na.rm = TRUE) + sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+
+##probability distributions 
