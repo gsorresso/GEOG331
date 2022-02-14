@@ -253,13 +253,16 @@ colnames(AnnualP) <- c("NAME", "YEAR", "Percip")
 hist(AnnualP$Percip[AnnualP$NAME == "LIVERMORE, CA US"],
      freq = FALSE,
      main = "Annual Percipitation in Livermore CA",
-     xlab = "Daily Percipitation (cm) ",
+     xlab = "Annual Percipitation (cm) ",
      ylab = "Relative Frequency",
      col = "azure3",
      border = "white")
 
 ##Q9 Mean annual Precipitation for all sites 
-MeanAnnualPercip <- aggregate(AnnualP, by=list(AnnualP$NAME), FUN ="mean", na.rm = TRUE)
+MeanAnnualPercip <- aggregate(AnnualP$Percip, by=list(AnnualP$NAME), FUN ="mean", na.rm = TRUE)
+colnames(MeanAnnualPercip) <- c("NAME", "MeanPercip")
 MeanAnnualPercip
+averageTemp
+
 
                     
