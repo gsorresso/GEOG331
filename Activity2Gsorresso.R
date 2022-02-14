@@ -217,7 +217,7 @@ pnorm (5,
     mean(datW$TAVE[datW$siteN == 1], na.rm = TRUE), 
     sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE)) 
                 
-##find probability of temps between 0 - 5 degrees 
+##find probability of temps between 0 - 5 degrees by subtracting prob under 5 degrees from prob under zero degrees
 pnorm (5, 
     mean(datW$TAVE[datW$siteN == 1], na.rm = TRUE), 
     sd(datW$TAVE[datW$siteN == 1], na.rm = TRUE))  - pnorm (0,
@@ -249,7 +249,7 @@ AnnualP <- aggregate(datW$PRCP, by=list(datW$NAME, datW$year), FUN="sum", na.rm=
 AnnualP
 colnames(AnnualP) <- c("NAME", "YEAR", "Percip")
 
-##Q7 Histogram for Annual Percip 
+##Q7 Histogram for Annual Percip in Livermore CA 
 hist(AnnualP$Percip[AnnualP$NAME == "LIVERMORE, CA US"],
      freq = FALSE,
      main = "Annual Percipitation in Livermore CA",
@@ -261,6 +261,7 @@ hist(AnnualP$Percip[AnnualP$NAME == "LIVERMORE, CA US"],
 ##Q9 Mean annual Precipitation for all sites 
 MeanAnnualPercip <- aggregate(AnnualP$Percip, by=list(AnnualP$NAME), FUN ="mean", na.rm = TRUE)
 colnames(MeanAnnualPercip) <- c("NAME", "MeanPercip")
+##look at the average percipitation and temp at all sites 
 MeanAnnualPercip
 averageTemp
 
