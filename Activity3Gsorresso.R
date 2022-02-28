@@ -4,21 +4,24 @@
 setwd("Z://students/gsorresso/")
 
 #Create Own Function Example
-#Name of arguments is in (), everything in {} is run each time funct is run 
-assert <- function(statement,err.message){
+#Name of arguments is in (), everything in {} is run each time funct is run
+assert <- function(statement, err.message, allgood.message){
   if(statement == FALSE){
-  print(err.message)  
+    print(err.message)  
+  }
+  if(statement == TRUE){
+    print(allgood.message)  
   }
 }
 
-#check how statement works by evaluating a false statement 
-assert(1==2, "error: unequal values")
-#evaluate a true statement 
-assert(2==2, "error: unequal values")
-#set assert to check if two vectors are the same length 
+#check how statement works by evaluating a false statement
+assert(1==2, "error: unequal values", "equal values")
+#evaluate a true statement
+assert(2==2, "error: unequal values", "equal values")
+#set assert to check if two vectors are the same length
 a <- c(1, 2, 3, 4)
 b <- c(8, 4, 5)
-assert(length(a) == length(b), "error: unequal length")
+assert(length(a) == length(b), "different lengths", "same length")
 
 
 ##read in Bewkes Weather Data & install lubridate package  
@@ -109,26 +112,63 @@ points(datW$DD[datW$precipitation > 0], datW$precipitation[datW$precipitation > 
 points(datW$DD[lightscale > 0], lightscale[lightscale > 0 ],
        col = "tomato3", pch = 19)
 
-##question 5 
-
-
+##question 5
+##use the assert function to show that the lightscale data frame has the same vector length as the percipitation vector in datW
+assert(length(lightscale) == length(datW$precipitation), "different lengths", "same length")
 
 ##filter out storms in wind and air temp measurements
 ###filter all values with lightning that coincide with rainfall greater than 2mm or only rainfall over 5mm
-###also create a new air temp column 
+###also create a new air temp column
 datW$air.tempQ2 <- ifelse(datW$precipitation >= 2 & datW$lightning.acvitivy > 0, NA,
                           ifelse(datW$precipitation > 5, NA, datW$air.tempQ1))
 
+##question 6
+##check extreme ranges of values and throughout percentiles for wind speed
+quantile(datW$wind.speed)
+###filter out suspect wind measurements (greater than 30 m/s) and replace with NA
+datW$wind.speedQ1 <- ifelse(datW$wind.speed > 30, NA, datW$wind.speed)
+##check that the maximum value in WindSpeedQ1 is 30
+assert(max(datW$wind.speedQ1, na.rm = TRUE) <= 30, "False, there are greater values", "True, 30 is the greatest value")
+##plot new wind speed vector
+plot(datW$DD, datW$wind.speedQ1, type = "o", xlab = "Day of Year", ylab = "Wind Speed (m/s)",
+     main = "Wind Speed")
 
-##question 6 
 
 
-##question 7 
-##check that soil measurements are reliable in days leading up to outage 
-##get mean of soil temp 
-MeanSoilTemp <- aggregate(datW$soil.temp, FUN="mean", na.rm=TRUE)
-MeanSoilTemp <- aggregate(datW$soil.temp, FUN="mean", na.rm=TRUE, if datW$doy >= 195)
+##question 7
+##check that soil measurements are reliable in days leading up to outage
+plot(x = datW$DD, y = datW$soil.moisture, xlab = "Day of Year", ylab = "Precipitation & Soil Moisture")
 
+#question 8
+#create a vector of the avg values of air temp, wind speed, soil moisture, and soil temp and the total obs for each
+average.values.and.obs <- c(mean(datW$air.temperature, na.rm=TRUE),
+                                 mean(datW$wind.speedQ1, na.rm = TRUE),
+                                 mean(datW$soil.moisture, na.rm = TRUE),
+                                 mean(datW$soil.temp, na.rm = TRUE),
+                                 sum(datW$precipitation, na.rm = TRUE),
+                                 length(datW$air.temperature[!is.na(datW$air.temperature)]),
+                                 length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1)]),
+                                 length(datW$soil.moisture[!is.na(datW$soil.moisture)]),
+                                 length(datW$soil.temp[!is.na(datW$soil.temp)]),
+                                 length(datW$precipitation[!is.na(datW$precipitation)]))
+#create an object (table1) to store matrix of avg values and total obs
+table1 <- matrix (average.values.and.obs, nrow = 2, byrow = TRUE,
+                       dimnames=list(value= c("Avg or Total Value", "Number of Obs"),
+                                     Variable = c("Avg Air Temp", "Avg Wind Speed", "Avg Soil Mosisture", "Avg Soil Temp", "Total Percipitation")))
+#print table1
+table1
+
+     
+#question 9
+#four plots of soil moist, air temp, soil temp, and percipitation
+##same x-axis range
+par(mfrow=c(2,2))
+plot(x = datW$DD, y = datW$soil.moisture, type = "l", xlab = "Day of Year", ylab = "Soil Moisture", main = "Soil Moisture")
+plot(x = datW$DD, y = datW$air.temperature, type = "l", xlab = "Day of Year", ylab = "Air Tempature", main = "Air Tempature")
+plot(x = datW$DD, y = datW$soil.temp, type = "l", xlab = "Day of Year", ylab = "Soil Tempature", main = "Soil Tempature")
+plot(x = datW$DD, y = datW$precipitation, type = "l", xlab = "Day of Year", ylab = "Precipitation", main = "Precipitation")
+     
+     
 
 
 
