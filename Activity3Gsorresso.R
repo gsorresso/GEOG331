@@ -125,10 +125,13 @@ datW$air.tempQ2 <- ifelse(datW$precipitation >= 2 & datW$lightning.acvitivy > 0,
 ##question 6
 ##check extreme ranges of values and throughout percentiles for wind speed
 quantile(datW$wind.speed)
-###filter out suspect wind measurements (greater than 30 m/s) and replace with NA
-datW$wind.speedQ1 <- ifelse(datW$wind.speed > 30, NA, datW$wind.speed)
-##check that the maximum value in WindSpeedQ1 is 30
-assert(max(datW$wind.speedQ1, na.rm = TRUE) <= 30, "False, there are greater values", "True, 30 is the greatest value")
+###filter out suspect wind measurements (when there are storms) and replace with NA
+datW$wind.speedQ1 <- ifelse(datW$precipitation >= 2 & datW$lightning.acvitivy > 0, NA,
+                            ifelse(datW$precipitation > 5, NA, datW$wind.speed))
+
+##check that when there is lightening wind is set to NA 
+assert(datW$lightning.acvitivy )
+
 ##plot new wind speed vector
 plot(datW$DD, datW$wind.speedQ1, type = "o", xlab = "Day of Year", ylab = "Wind Speed (m/s)",
      main = "Wind Speed")
@@ -158,9 +161,11 @@ table1 <- matrix (average.values.and.obs, nrow = 2, byrow = TRUE,
 #print table1
 table1
 
+##find min and max day or year for each measurement 
+
      
 #question 9
-#four plots of soil moist, air temp, soil temp, and percipitation
+#four plots of soil moist, air temp, soil temp, and precipitation
 ##same x-axis range
 par(mfrow=c(2,2))
 plot(x = datW$DD, y = datW$soil.moisture, type = "l", xlab = "Day of Year", ylab = "Soil Moisture", main = "Soil Moisture")
