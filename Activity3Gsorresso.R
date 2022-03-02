@@ -129,18 +129,25 @@ quantile(datW$wind.speed)
 datW$wind.speedQ1 <- ifelse(datW$precipitation >= 2 & datW$lightning.acvitivy > 0, NA,
                             ifelse(datW$precipitation > 5, NA, datW$wind.speed))
 
-##check that when there is lightening wind is set to NA 
-assert(datW$lightning.acvitivy )
+##check that there are now more na variables in new wind speed vector  
+assert(length(which(is.na(datW$wind.speed))) < length(which(is.na(datW$wind.speedQ1))), "New var has less NA", "New var has more NA")
+
 
 ##plot new wind speed vector
 plot(datW$DD, datW$wind.speedQ1, type = "o", xlab = "Day of Year", ylab = "Wind Speed (m/s)",
-     main = "Wind Speed")
-
+     main = "Wind Speed" )
 
 
 ##question 7
-##check that soil measurements are reliable in days leading up to outage
-plot(x = datW$DD, y = datW$soil.moisture, xlab = "Day of Year", ylab = "Precipitation & Soil Moisture")
+##check that soil measurements are reliable in days leading up to outage 
+##create four plots of soil moisture, soil temp, precipitation, and air temp 
+##use the xlim function to create plots that are zoomed into the days leading up to the outage 
+par(mfrow=c(2,2))
+plot(x = datW$DD, y = datW$soil.moisture, xlim = c(180, 193), type = "l", xlab = "Day of Year", ylab = "Soil Moisture", main = "Soil Moisture")
+plot(x = datW$DD, y = datW$air.temperature, xlim = c(180, 193), type = "l", xlab = "Day of Year", ylab = "Air Tempature", main = "Air Tempature")
+plot(x = datW$DD, y = datW$soil.temp, xlim = c(180, 193), type = "l", xlab = "Day of Year", ylab = "Soil Tempature", main = "Soil Tempature")
+plot(x = datW$DD, y = datW$precipitation, xlim = c(180, 193), type = "l", xlab = "Day of Year", ylab = "Precipitation", main = "Precipitation")
+
 
 #question 8
 #create a vector of the avg values of air temp, wind speed, soil moisture, and soil temp and the total obs for each
@@ -154,7 +161,8 @@ average.values.and.obs <- c(mean(datW$air.temperature, na.rm=TRUE),
                                  length(datW$soil.moisture[!is.na(datW$soil.moisture)]),
                                  length(datW$soil.temp[!is.na(datW$soil.temp)]),
                                  length(datW$precipitation[!is.na(datW$precipitation)]))
-#create an object (table1) to store matrix of avg values and total obs
+
+                            #create an object (table1) to store matrix of avg values and total obs
 table1 <- matrix (average.values.and.obs, nrow = 2, byrow = TRUE,
                        dimnames=list(value= c("Avg or Total Value", "Number of Obs"),
                                      Variable = c("Avg Air Temp", "Avg Wind Speed", "Avg Soil Mosisture", "Avg Soil Temp", "Total Percipitation")))
