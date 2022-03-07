@@ -3,7 +3,7 @@
 ##set working directory 
 setwd("Z://students/gsorresso/")
 
-#Create Own Function Example
+#Create Assert Function
 #Name of arguments is in (), everything in {} is run each time funct is run
 assert <- function(statement, err.message, allgood.message){
   if(statement == FALSE){
@@ -13,15 +13,6 @@ assert <- function(statement, err.message, allgood.message){
     print(allgood.message)  
   }
 }
-
-#check how statement works by evaluating a false statement
-assert(1==2, "error: unequal values", "equal values")
-#evaluate a true statement
-assert(2==2, "error: unequal values", "equal values")
-#set assert to check if two vectors are the same length
-a <- c(1, 2, 3, 4)
-b <- c(8, 4, 5)
-assert(length(a) == length(b), "different lengths", "same length")
 
 
 ##read in Bewkes Weather Data & install lubridate package  
@@ -162,12 +153,12 @@ average.values.and.obs <- c(mean(datW$air.temperature, na.rm=TRUE),
                                  length(datW$soil.temp[!is.na(datW$soil.temp)]),
                                  length(datW$precipitation[!is.na(datW$precipitation)]))
 
-                            #create an object (table1) to store matrix of avg values and total obs
-table1 <- matrix (average.values.and.obs, nrow = 2, byrow = TRUE,
+#create an object (table1) to store matrix of avg values and total obs
+avgvalues <- matrix (average.values.and.obs, nrow = 2, byrow = TRUE,
                        dimnames=list(value= c("Avg or Total Value", "Number of Obs"),
                                      Variable = c("Avg Air Temp", "Avg Wind Speed", "Avg Soil Mosisture", "Avg Soil Temp", "Total Percipitation")))
 #print table1
-table1
+avgvalues
 
 ##find min and max day or year for each measurement 
 
