@@ -1,4 +1,4 @@
-##2/28/22 Parctice w Linear Regression 
+##2/28/22 Practice w Linear Regression 
 #Gabrielle Sorresso 
 
 ##subset for iris virginica 
