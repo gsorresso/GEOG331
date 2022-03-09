@@ -2,7 +2,7 @@
 #take a look at it 
 head(iris)
 #load in some tidyverse packages
-#library(dplyr)
+library(dplyr)
 library(ggplot2)
 
 #####################################
@@ -46,21 +46,18 @@ regResults
 #####################################
 
 #use dplyr to join data of maximum height to a new iris data frame
-iris
-##generate a df called MaxIris to identify max values 
-install.packages("dplyr")
-library(dplyr)
-MaxIris = iris %>% group_by(iris$Species) %>% summarise(MaxHieght = max(iris$Sepal.Length))
+height <- data.frame(Species = c("virginica","setosa","versicolor"),
+                     Height.cm = c(60,100,11.8))
 
-#look at new dataframe
-MaxIris 
+#create new data frame equal to old iris df 
+IrisWMaxHieght <- iris
+#use full join to add height to new df by species 
+IrisWMaxHeight <- full_join(IrisWMaxHeight, height, by ='Species')
+
 
 #####################################
 ##### Part 3: plots in ggplot2  #####
 #####################################
-plot(datW$DD, datW$wind.speedQ1, type = "o", xlab = "Day of Year", ylab = "Wind Speed (m/s)",
-     main = "Wind Speed" )
-
 #look at base R scatter plot
 plot(iris$Sepal.Length,iris$Sepal.Width, xlab = "Sepal Length", 
      ylab = "Sepal Width", main = "Sepal Length against Sepal Width",
@@ -78,8 +75,8 @@ IrisPlot + theme_classic()  + geom_point() + ggtitle("Sepal Length against Sepal
 
 #3c. make a scatter plot with ggplot, remove grid lines, add a title and axis labels, 
 #    show species by color, and make the point size proportional to petal length
-IrisPlotColor <- ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species ))  
-IrisPlotColor + theme_classic()  + geom_point() + ggtitle("Sepal Length against Sepal Width")
+IrisPlotColor <- ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species,size = Petal.Length ))  
+IrisPlotColor + theme_classic()  + geom_point() + ggtitle("Sepal Length against Sepal Width, with sizing by Petal Length")
 
 
 
