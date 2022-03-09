@@ -48,6 +48,8 @@ regResults
 #use dplyr to join data of maximum height to a new iris data frame
 iris
 ##generate a df called MaxIris to identify max values 
+install.packages("dplyr")
+library(dplyr)
 MaxIris = iris %>% group_by(iris$Species) %>% summarise(MaxHieght = max(iris$Sepal.Length))
 
 #look at new dataframe
@@ -64,10 +66,15 @@ plot(iris$Sepal.Length,iris$Sepal.Width, xlab = "Sepal Length",
      ylab = "Sepal Width", main = "Sepal Length against Sepal Width",
      col = "royalblue3")
 
-#3a. now make the same plot in ggplot
-ggplot2(data = iris, mapping = aes(x = Sepal.Length, y = Sepal.Width))
+
 install.packages("ggplot2")
 library(ggplot2)
+#3a. now make the same plot in ggplot
+ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width) + geom_point())
+
+
+
+
 #3b. make a scatter plot with ggplot and get rid of  busy grid lines
 
 
