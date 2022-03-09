@@ -70,16 +70,18 @@ plot(iris$Sepal.Length,iris$Sepal.Width, xlab = "Sepal Length",
 install.packages("ggplot2")
 library(ggplot2)
 #3a. now make the same plot in ggplot
-ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width) + geom_point())
-
-
-
+IrisPlot <- ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width, ))  
+IrisPlot + geom_point() + ggtitle("Sepal Length against Sepal Width")
 
 #3b. make a scatter plot with ggplot and get rid of  busy grid lines
-
+IrisPlot + theme_classic()  + geom_point() + ggtitle("Sepal Length against Sepal Width")
 
 #3c. make a scatter plot with ggplot, remove grid lines, add a title and axis labels, 
 #    show species by color, and make the point size proportional to petal length
+IrisPlotColor <- ggplot(data = iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species ))  
+IrisPlotColor + theme_classic()  + geom_point() + ggtitle("Sepal Length against Sepal Width")
+
+
 
 #####################################
 ##### Question: how did         #####
