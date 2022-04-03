@@ -150,8 +150,13 @@ legend("topright", c("mean","1 standard deviation", "2017 observations"), #legen
 ##QUESTION 7 
 #create a data frame that indicates what days have a full 24 hours of precipitation measurements 
 ##plot all discharge measures and symbolize days that have precipitation measures available 
-full_day <- aggregate(datP, by=list(datP$doy, datP$year), FUN = length)
-list(full_day)
+library("dplyr")
+#create a full day variable
+datP$fullday <- paste(yday(dateP), year(dateP))
+#create a new df of full days 
+fulldays <- summarise(group_by(datP, fullday), sum(hour))
+#name columns 
+colnames(fulldays) <- c("FullDate", "TotalHours")
 
 
 
