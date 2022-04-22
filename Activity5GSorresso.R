@@ -147,7 +147,7 @@ legend("topright", c("mean","1 standard deviation", "2017 observations"), #legen
 
 #################################################################################
 #################################################################################
-##QUESTION 7 
+##QUESTION 7 ##
 #create a data frame that indicates what days have a full 24 hours of precipitation measurements 
 ##plot all discharge measures and symbolize days that have precipitation measures available 
 library("dplyr")
